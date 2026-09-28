@@ -45,7 +45,7 @@ Open http://localhost:8620 in Chrome. The arrow keys stand in for band swipes, E
 
 ## Put it on the glasses
 
-1. Host the folder on any HTTPS host (Vercel: `vercel deploy --prod`).
+1. It's live at https://eyejam.vercel.app (redeploy with `vercel deploy --prod`).
 2. In the Meta AI app, turn on developer mode for your glasses and add the web app by URL. See [Meta's web app docs](https://wearables.developer.meta.com/docs/develop/webapps).
 
 ## Files
