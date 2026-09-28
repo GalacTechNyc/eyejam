@@ -33,6 +33,7 @@ export function newProject() {
     root: 9, // A
     scale: 'minor',
     song: false,
+    metronome: false,
     current: 0,
     tracks: TRACKS.map((t) => ({ ...t, vol: 0.8, mute: false, solo: false })),
     patterns: Array.from({ length: PATTERNS }, emptyPattern),
@@ -105,7 +106,7 @@ function buildGraph(ctx, p) {
     g.connect(comp);
     return g;
   });
-  const graph = { ctx, buses, noise: makeNoise(ctx) };
+  const graph = { ctx, buses, master, noise: makeNoise(ctx) };
   applyMix(graph, p);
   return graph;
 }
@@ -187,6 +188,7 @@ export class Engine {
       const sd = stepDur(p);
       const t = this.nextTime + swingAt(p, this.step, sd);
       for (let i = 0; i < p.tracks.length; i++) playStep(this.graph, this.samples, p, this.pat, i, this.step, t, sd);
+      if (p.metronome && this.step % 4 === 0) this.click(t, this.step === 0);
       this.queue.push({ time: t, step: this.step, pat: this.pat });
       this.nextTime += sd;
       this.step = (this.step + 1) % STEPS;
@@ -194,6 +196,19 @@ export class Engine {
     }
     const now = this.ctx.currentTime;
     while (this.queue.length > 1 && this.queue[1].time <= now) this.queue.shift();
+  }
+
+  // Metronome: a short blip on every beat, higher on the downbeat. Live only,
+  // never in the export.
+  click(t, accent) {
+    const o = this.ctx.createOscillator();
+    o.frequency.value = accent ? 1760 : 1180;
+    const g = this.ctx.createGain();
+    g.gain.setValueAtTime(accent ? 0.5 : 0.32, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+    o.connect(g).connect(this.graph.master);
+    o.start(t);
+    o.stop(t + 0.06);
   }
 
   // What's sounding now, for the playhead.

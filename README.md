@@ -6,7 +6,7 @@ A pocket groovebox for Meta Ray-Ban Display glasses. Program drums, 808s and key
 - Synthesized drums (punch kick, 808 kick, snare, clap, rim, hats, shaker, tom)
 - Melodic sounds from the **g-WAVE** synth (Cosmic Keys, Void Bass, Dark Pluck, Starfall Lead, multisampled from gWAVE-MPC) plus a saturated 808 and synth bass/stab
 - Notes are locked to the key (minor, major, minor pentatonic, dorian, phrygian), so everything you enter is in tune
-- BPM, swing, per-track volume / mute / solo / octave
+- Metronome, BPM, swing, per-track volume / mute / solo / octave
 - 4 patterns (A–D), copy, clear, and Song mode that chains every pattern with notes
 - Export to WAV (shares the file when the device supports it, otherwise downloads)
 - Your project saves automatically on the device
@@ -28,6 +28,7 @@ No build step. Plain HTML/CSS/JS.
 | Track name (left column) | Pinch | Sound, volume, octave, mute, solo, clear |
 | BPM / Swing / Key | Pinch, then swipe | Change it (pinch again when done) |
 | A B C D | Pinch | Edit that pattern |
+| Metronome (next to ▶) | Pinch | Click on every beat, higher on the 1 (not in the export) |
 | LOOP / SONG | Pinch | Loop the pattern you're on, or play every pattern with notes in order |
 | ⧉ Copy | Pinch | Copy this pattern into the next one (build variations fast) |
 | ✕ Clear | Pinch twice | Clear this pattern |

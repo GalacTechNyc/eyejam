@@ -37,7 +37,7 @@ const engine = new Engine(() => project);
 
 // ---------- ui state ----------
 
-const TOP = ['play', 'bpm', 'swing', 'key', 'song', 'export'];
+const TOP = ['play', 'met', 'bpm', 'swing', 'key', 'song', 'export'];
 const PATS = ['p0', 'p1', 'p2', 'p3', 'copy', 'clear'];
 
 const ui = {
@@ -86,6 +86,7 @@ const keyName = () => `${NOTE_NAMES[project.root]} ${project.scale === 'major' ?
 function renderTop() {
   const html = {
     play: engine.playing ? '■' : '▶',
+    met: '<svg viewBox="0 0 24 24" width="24" height="24" aria-label="Metronome"><path d="M9 3h6l4 18H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 16 17 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
     bpm: `${project.bpm}<small>BPM</small>`,
     swing: `${Math.round(project.swing * 100)}%<small>SWING</small>`,
     key: `${keyName()}<small>KEY</small>`,
@@ -95,7 +96,7 @@ function renderTop() {
   for (const el of topEl.children) {
     const id = el.dataset.id;
     el.innerHTML = html[id];
-    el.classList.toggle('on', (id === 'play' && engine.playing) || (id === 'song' && project.song));
+    el.classList.toggle('on', (id === 'play' && engine.playing) || (id === 'song' && project.song) || (id === 'met' && project.metronome));
     el.classList.toggle('cur', ui.zone === 'top' && TOP[ui.top] === id);
     el.classList.toggle('engaged', ui.engaged === id);
   }
@@ -183,6 +184,7 @@ function updateHint() {
   } else if (ui.zone === 'top') {
     h = {
       play: engine.playing ? 'Pinch to stop' : 'Pinch to play',
+      met: project.metronome ? 'Metronome on · pinch to turn off' : 'Pinch to turn on the metronome',
       bpm: 'Pinch, then swipe to change the tempo',
       swing: 'Pinch, then swipe to change the swing',
       key: 'Pinch, then swipe to change the key',
@@ -205,7 +207,10 @@ function activate() {
   if (ui.zone === 'top') {
     const id = TOP[ui.top];
     if (id === 'play') engine.playing ? engine.stop() : engine.play();
-    else if (id === 'song') {
+    else if (id === 'met') {
+      project.metronome = !project.metronome;
+      changed();
+    } else if (id === 'song') {
       project.song = !project.song;
       changed();
     } else if (id === 'export') exportWav();

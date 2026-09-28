@@ -46,7 +46,8 @@ html, body {
 #top .btn[data-id="play"] { width: 64px; font-size: 22px; }
 #top .btn[data-id="play"].on { background: var(--accent); color: #000; }
 #top .btn[data-id="bpm"], #top .btn[data-id="swing"], #top .btn[data-id="key"] { flex: 1; flex-direction: column; gap: 0; }
-#top .btn[data-id="song"] { width: 80px; }
+#top .btn[data-id="met"] { width: 52px; padding: 0; }
+#top .btn[data-id="song"] { width: 76px; }
 #top .btn[data-id="export"] { width: 60px; font-size: 20px; }
 
 /* ---------- grid ---------- */
